@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  ros-master:
+    image: ros:indigo
+    environment:
+      - "ROS_HOSTNAME=ros-master"
+    command: stdbuf -o L roscore
+    networks:
+      - ros-network
+    restart: always
+
+  ros-node:
+    image: ros:indigo
+    depends_on:
+      - ros-master
+    environment:
+      - "ROS_MASTER_URI=http://ros-master:11311"
+      - "ROS_HOSTNAME=ros-node"
+    command: stdbuf -o L rostopic pub /chatter std_msgs/String "hello" -r 1
+    networks:
+      - ros-network
+    restart: always
+
+networks:
+  ros-network:
+    driver: bridge

@@ -1,0 +1,18 @@
+apt-get update \
+&& apt-get install -y \
+    aptitude \
+&& aptitude update \
+&& aptitude install -y \
+    build-essential \
+    software-properties-common \
+&& aptitude safe-upgrade -y \
+&& add-apt-repository -y ppa:ubuntu-toolchain-r/test \
+&& aptitude update \
+&& aptitude install -y \
+    gcc-5 \
+    g++-5 \
+&& update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 60 --slave /usr/bin/g++ g++ /usr/bin/g++-5 \
+&& update-alternatives --config gcc \
+&& add-apt-repository -y --remove ppa:ubuntu-toolchain-r/test \
+&& apt-get purge -y aptitude
+&& apt-get update
